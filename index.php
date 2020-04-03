@@ -102,10 +102,22 @@
                 </div>
                 
                 <!-- Modal body -->
-                <div class="modal-body">
+                <div class="modal-body px-4">
                     <form action="" method="post" id="form-data" autocomplete="off">
                         <div class="form-group">
                             <input type="text" name="fname" class="form-control" placeholder="Primeiro nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="lname" class="form-control" placeholder="Último nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" class="form-control" placeholder="Telefone" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="insert" id="insert" class="btn btn-danger btn-block" value="Adicionar usuário">
                         </div>
                     </form>
                 </div>
