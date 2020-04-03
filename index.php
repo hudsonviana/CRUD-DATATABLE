@@ -147,6 +147,18 @@
     <script>
         $(document).ready(function() {
             $('table').DataTable()
+            
+            showAllUsers()
+            function showAllUsers() {
+                $.ajax({
+                    url: 'action.php',
+                    type: 'POST',
+                    data: {action: 'view'},
+                    success: function(response) {
+                        console.log(response)
+                    }
+                })
+            }
         })
     </script>
 
