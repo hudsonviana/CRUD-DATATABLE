@@ -49,7 +49,7 @@
                 <h4 class="mt-2 text-primary">Todos os usuários da base de dados!</h4>
             </div>
             <div class="col-lg-6">
-                <button class="btn btn-primary m-1 float-right"><i class="fas fa-user-plus fa-lg"></i>&nbsp;&nbsp;Adiconar novo usuário</button>
+                <button class="btn btn-primary m-1 float-right" data-toggle="modal" data-target="#addModal"><i class="fas fa-user-plus fa-lg"></i>&nbsp;&nbsp;Adiconar novo usuário</button>
                 <a href="#" class="btn btn-success m-1 float-right"><i class="fas fa-table fa-lg"></i>&nbsp;&nbsp;Exportar para o Excel</a>
             </div>
         </div>
@@ -91,27 +91,26 @@
     </div>
 
     <!-- Adicionar novo usuário Modal -->
-    <div class="modal fade" id="myModal">
+    <div class="modal fade" id="addModal">
         <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        
-            <!-- Modal Header -->
-            <div class="modal-header">
-            <h4 class="modal-title">Modal Heading</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+            <div class="modal-content">
             
-            <!-- Modal body -->
-            <div class="modal-body">
-            Modal body..
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar novo usuário</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="" method="post" id="form-data" autocomplete="off">
+                        <div class="form-group">
+                            <input type="text" name="fname" class="form-control" placeholder="Primeiro nome" required>
+                        </div>
+                    </form>
+                </div>
+                
             </div>
-            
-            <!-- Modal footer -->
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            
-        </div>
         </div>
     </div>
 
