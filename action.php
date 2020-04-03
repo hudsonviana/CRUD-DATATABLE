@@ -48,3 +48,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'view') {
         echo '<h3 class="text-center text-secondary mt-5">:( Nenhum usuário encontrado na base de dados!</h3>';
     }
 }
+
+if (isset($_POST['action']) && $_POST['action'] == 'insert') {
+
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+
+    $db->insert($fname, $lname, $email, $phone);
+}
