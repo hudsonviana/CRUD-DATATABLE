@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive" id="showUser">
-
+                    <!-- A tabela com os registros do banco de dados será inserida aqui -->
                 </div>
             </div>
         </div>
@@ -129,13 +129,34 @@
                     data: {action: 'view'},
                     success: function(response) {
                        // console.log(response)
-                       $('#showUser').html(response) //'showUser' é o id da div onde eu quero que a tabela seja inserida
+                       $('#showUser').html(response) //'showUser' é o ID da div onde eu quero que a tabela seja inserida
                        $('table').DataTable({
                            order: [0, 'desc']
                        })
                     }
                 })
             }
+
+            //inserir requisição ajax
+            $('#insert').click(function(e) { // 'insert' é o ID do botão submeter do formulário de cadastro de novo usuário
+                if ($('#form-data')[0].checkValidity()) {
+                    e.preventDefault()
+                    $.ajax({
+                        url: 'action.php',
+                        type: 'POST',
+                        data: $('#form-data').serialize()+'&action=insert',
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Usuário cadastrado com sucesso!'
+                            })
+                            $('#addModal').modal('hide') // 'addModal' é o ID da div modal
+                            $('#form-data')[0].reset()
+                            showAllUsers()
+                        }
+                    })
+                }
+            })
         })
     </script>
 
