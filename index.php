@@ -56,35 +56,8 @@
         <hr class="my-1">
         <div class="row">
             <div class="col-lg-12">
-                <div class="table-responsive" id="mostrarUsuario">
-                    <table class="table table-striped table-sm table-bordered">
-                        <thead>
-                            <tr class="text-center">
-                                <th>ID</th>
-                                <th>Primeiro nome</th>
-                                <th>Último nome</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php for($i=1; $i<=100; $i++): ?>
-                                <tr class="text-center text-secondary">
-                                    <td><?php echo $i; ?></td>
-                                    <td>Usuário <?php echo $i; ?></td>
-                                    <td>Teste <?php echo $i; ?></td>
-                                    <td>teste-<?php echo $i; ?>@email.com</td>
-                                    <td>(84) 98851-9954</td>
-                                    <td>
-                                        <a href="#" title="Ver detalhes" class="text-success"><i class="fas fa-info-circle fa-lg"></i></a>&nbsp;&nbsp;
-                                        <a href="#" title="Editar" class="text-primay"><i class="fas fa-edit fa-lg"></i></a>&nbsp;&nbsp;    
-                                        <a href="#" title="Deletar" class="text-danger"><i class="fas fa-trash-alt fa-lg"></i></a>
-                                    </td>
-                                </tr>
-                            <?php endfor; ?>
-                        </tbody>
-                    </table>
+                <div class="table-responsive" id="showUser">
+
                 </div>
             </div>
         </div>
@@ -146,16 +119,20 @@
 
     <script>
         $(document).ready(function() {
-            $('table').DataTable()
             
             showAllUsers()
+
             function showAllUsers() {
                 $.ajax({
                     url: 'action.php',
                     type: 'POST',
                     data: {action: 'view'},
                     success: function(response) {
-                        console.log(response)
+                       // console.log(response)
+                       $('#showUser').html(response) //'showUser' é o id da div onde eu quero que a tabela seja inserida
+                       $('table').DataTable({
+                           order: [0, 'desc']
+                       })
                     }
                 })
             }
