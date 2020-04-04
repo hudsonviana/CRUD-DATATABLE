@@ -39,8 +39,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'view') {
                     <a href="#" title="Editar" class="text-primay editBtn" data-toggle="modal" data-target="#editModal" id="'.$row['id'].'"><i class="fas fa-edit fa-lg"></i></a>&nbsp;&nbsp;    
                     
                     <a href="#" title="Deletar" class="text-danger delBtn" id="'.$row['id'].'"><i class="fas fa-trash-alt fa-lg"></i></a>
-                </td></tr>
-            ';
+                </td>
+            </tr>';
         }
         
         $output .= '</tbody></table>';
@@ -83,4 +83,35 @@ if (isset($_POST['del_id'])) {
 
     $id = $_POST['del_id'];
     $db->delete($id);
+}
+
+if (isset($_POST['info_id'])) {
+
+    $id = $_POST['info_id'];
+    $row = $db->getUserById($id);
+    echo json_encode($row);
+}
+
+if (isset($_GET['export']) && $_GET['export'] == 'excel') {
+
+    header('Content-Type: application/xls');
+    header('Content-Disposition: attachment; filename=usuarios.xls');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    $data = $db->read();
+    
+    echo '<table border="1">';
+    echo '<tr><th>ID</th><th>Primeiro nome</th><th>Último nome</th><th>Email</th><th>Telefone</th></tr>';
+    
+    foreach ($data as $row) {
+        echo '<tr>
+            <td>' . $row['id'] . '</td>
+            <td>' . $row['primeiro_nome'] . '</td>
+            <td>' . $row['ultimo_nome'] . '</td>
+            <td>' . $row['email'] . '</td>
+            <td>' . $row['phone'] . '</td>
+        </tr>';
+    }
+    echo '</table>';
 }
