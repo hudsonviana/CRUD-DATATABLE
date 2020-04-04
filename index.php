@@ -50,7 +50,9 @@
             </div>
             <div class="col-lg-6">
                 <button class="btn btn-primary m-1 float-right" data-toggle="modal" data-target="#addModal"><i class="fas fa-user-plus fa-lg"></i>&nbsp;&nbsp;Adiconar novo usuário</button>
-                <a href="#" class="btn btn-success m-1 float-right"><i class="fas fa-table fa-lg"></i>&nbsp;&nbsp;Exportar para o Excel</a>
+
+                <a href="action.php?export=excel" class="btn btn-success m-1 float-right"><i class="fas fa-table fa-lg"></i>&nbsp;&nbsp;Exportar para o Excel</a>
+
             </div>
         </div>
         <hr class="my-1">
@@ -58,6 +60,7 @@
             <div class="col-lg-12">
                 <div class="table-responsive" id="showUser">
                     <!-- A tabela com os registros do banco de dados será inserida aqui -->
+                    <h3 class="text-center text-success" style="margin-top: 150px;">Carregando...</h3>
                 </div>
             </div>
         </div>
@@ -265,6 +268,27 @@
                                 )
                                 showAllUsers()
                             }
+                        })
+                    }
+                })
+            })
+
+            //mostrar detalhes do usuário
+            $('body').on('click', '.infoBtn', function(e) {
+                e.preventDefault()
+                info_id = $(this).attr('id')
+                $.ajax({
+                    url: 'action.php',
+                    type: 'POST',
+                    data: {info_id:info_id},
+                    success: function(response) {
+                        //console.log(response)
+                        data = JSON.parse(response)
+                        Swal.fire({
+                            icon: 'info',
+                            title: '<strong>Informações do Usuário: ID(' + data.id + ')</strong>',
+                            html: '<b>Primeiro nome: </b>' + data.primeiro_nome + '<br><b>Último nome: </b>' + data.ultimo_nome + '<br><b>Email: </b>' + data.email + '<br><b>Telefone: </b>' + data.phone,
+                            showCancelButton: true
                         })
                     }
                 })
