@@ -99,6 +99,44 @@
         </div>
     </div>
 
+    <!-- Editar usuário Modal -->
+    <div class="modal fade" id="editModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar usuário</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body px-4">
+                    <form action="" method="post" id="edit-form-data" autocomplete="off">
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <input type="text" name="fname" class="form-control" id="fname" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="lname" class="form-control" id="lname" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" class="form-control" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="update" id="update" class="btn btn-primary btn-block" value="Atualizar usuário">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -120,8 +158,8 @@
     <script>
         $(document).ready(function() {
             
+            //retornar registros do banco de dados e gerar tabela
             showAllUsers()
-
             function showAllUsers() {
                 $.ajax({
                     url: 'action.php',
@@ -137,7 +175,7 @@
                 })
             }
 
-            //inserir requisição ajax
+            //inserir usuário (ajax request)
             $('#insert').click(function(e) { // 'insert' é o ID do botão submeter do formulário de cadastro de novo usuário
                 if ($('#form-data')[0].checkValidity()) {
                     e.preventDefault()
@@ -156,6 +194,80 @@
                         }
                     })
                 }
+            })
+
+            //editar usuário
+            $('body').on('click', '.editBtn', function(e) {
+                e.preventDefault()
+                edit_id = $(this).attr('id')
+                $.ajax({
+                    url: 'action.php',
+                    type: 'POST',
+                    data: {edit_id:edit_id},
+                    success: function(response) {
+                        data = JSON.parse(response)
+                        $('#id').val(data.id)
+                        $('#fname').val(data.primeiro_nome)
+                        $('#lname').val(data.ultimo_nome)
+                        $('#email').val(data.email)
+                        $('#phone').val(data.phone)
+                    }
+                })
+            })
+
+            //atualizar usuário (ajax request)
+            $('#update').click(function(e) { // 'insert' é o ID do botão submeter do formulário de cadastro de novo usuário
+                if ($('#edit-form-data')[0].checkValidity()) {
+                    e.preventDefault()
+                    $.ajax({
+                        url: 'action.php',
+                        type: 'POST',
+                        data: $('#edit-form-data').serialize()+'&action=update',
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Usuário atualizado com sucesso!'
+                            })
+                            $('#editModal').modal('hide') // 'addModal' é o ID da div modal
+                            $('#edit-form-data')[0].reset()
+                            showAllUsers()
+                        }
+                    })
+                }
+            })
+
+            //Deletar usuário (ajax request)
+            $('body').on('click', '.delBtn', function(e) {
+                e.preventDefault()
+                var tr = $(this).closest('tr')
+                del_id = $(this).attr('id')
+
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: "Essa operação é irreversível!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, deletar!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: 'action.php',
+                            type: 'POST',
+                            data: {del_id:del_id},
+                            success: function(response) {
+                                tr.css('background-color', '#ff6666')
+                                Swal.fire(
+                                    'Deletado!',
+                                    'Usuário deletado com sucesso!',
+                                    'success'
+                                )
+                                showAllUsers()
+                            }
+                        })
+                    }
+                })
             })
         })
     </script>
